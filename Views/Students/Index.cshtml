@@ -1,0 +1,35 @@
+@model IEnumerable<Student>
+@{ ViewData["Title"] = "Students"; }
+<div class="page-head">
+    <h1>Students</h1>
+    <a class="btn btn-primary" asp-action="Create">Add student</a>
+</div>
+<form method="get" class="search" role="search">
+    <input type="text" name="search" value="@ViewData["Search"]" placeholder="Search by name or email" aria-label="Search students" />
+    <button class="btn" type="submit">Search</button>
+</form>
+@if (!Model.Any())
+{
+    <p class="empty">No students match. Add a student to start the roster.</p>
+}
+else
+{
+    <div class="table-wrap"><table>
+        <thead><tr><th>Name</th><th>Email</th><th>Enrolled since</th><th>Courses</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td><a asp-action="Details" asp-route-id="@s.Id">@s.FullName</a></td>
+                <td>@s.Email</td>
+                <td>@s.EnrollmentDate.ToString("yyyy-MM-dd")</td>
+                <td>@s.Enrollments.Count</td>
+                <td class="actions">
+                    <a asp-action="Edit" asp-route-id="@s.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@s.Id">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table></div>
+}

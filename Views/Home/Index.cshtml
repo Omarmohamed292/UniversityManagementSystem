@@ -1,0 +1,14 @@
+@{ ViewData["Title"] = "Overview"; }
+<h1>University registry</h1>
+<p class="lead">Keep student, instructor and course records in one place. Pick a list to review or edit.</p>
+<ul class="overview">
+    <li><a asp-controller="Students" asp-action="Index">Students <span>@ViewBag.Students</span></a></li>
+    <li><a asp-controller="Instructors" asp-action="Index">Instructors <span>@ViewBag.Instructors</span></a></li>
+    <li><a asp-controller="Courses" asp-action="Index">Courses <span>@ViewBag.Courses</span></a></li>
+</ul>
+@if ((int)ViewBag.Unstaffed > 0)
+{
+    <p class="notice err" style="margin-top:1.5rem;max-width:520px">
+        @ViewBag.Unstaffed course(s) have no instructor. <a asp-controller="Courses" asp-action="Index">Review courses</a>
+    </p>
+}

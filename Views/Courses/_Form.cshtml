@@ -1,0 +1,16 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model Course
+<div asp-validation-summary="ModelOnly"></div>
+<div class="field"><label asp-for="Code"></label><input asp-for="Code" /><span asp-validation-for="Code"></span></div>
+<div class="field"><label asp-for="Title"></label><input asp-for="Title" /><span asp-validation-for="Title"></span></div>
+<div class="field"><label asp-for="Credits"></label><input asp-for="Credits" type="number" min="1" max="6" /><span asp-validation-for="Credits"></span></div>
+<div class="field">
+    <label asp-for="DepartmentId"></label>
+    <select asp-for="DepartmentId" asp-items="@((SelectList)ViewBag.Departments)"><option value="0">Choose a department</option></select>
+    <span asp-validation-for="DepartmentId"></span>
+</div>
+<div class="field">
+    <label asp-for="InstructorId"></label>
+    <select asp-for="InstructorId" asp-items="@((SelectList)ViewBag.Instructors)"><option value="">Not assigned</option></select>
+    <span asp-validation-for="InstructorId"></span>
+</div>

@@ -1,0 +1,46 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model Student
+@{ ViewData["Title"] = Model.FullName; }
+<div class="page-head">
+    <h1>@Model.FullName</h1>
+    <div><a class="btn" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <a class="btn" asp-action="Index">Back to students</a></div>
+</div>
+<dl>
+    <dt>Email</dt><dd>@Model.Email</dd>
+    <dt>Date of birth</dt><dd>@Model.DateOfBirth.ToString("yyyy-MM-dd")</dd>
+    <dt>Enrollment date</dt><dd>@Model.EnrollmentDate.ToString("yyyy-MM-dd")</dd>
+</dl>
+
+<h2>Enrolled courses</h2>
+@if (!Model.Enrollments.Any())
+{
+    <p class="empty">Not enrolled in any course yet.</p>
+}
+else
+{
+    <div class="table-wrap"><table>
+        <thead><tr><th>Code</th><th>Title</th><th>Credits</th><th>Enrolled on</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var e in Model.Enrollments)
+        {
+            <tr>
+                <td>@e.Course!.Code</td><td>@e.Course.Title</td><td>@e.Course.Credits</td><td>@e.EnrolledOn.ToString("yyyy-MM-dd")</td>
+                <td class="actions">
+                    <form asp-action="Drop" method="post" style="display:inline">
+                        <input type="hidden" name="enrollmentId" value="@e.Id" />
+                        <input type="hidden" name="studentId" value="@Model.Id" />
+                        <button class="link-btn" type="submit">Drop</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table></div>
+}
+
+<form asp-action="Enroll" method="post" class="inline-form">
+    <input type="hidden" name="studentId" value="@Model.Id" />
+    <label for="courseId" style="margin:0">Add a course</label>
+    <select id="courseId" name="courseId" asp-items="@((SelectList)ViewBag.AvailableCourses)"></select>
+    <button class="btn btn-primary" type="submit">Enroll</button>
+</form>

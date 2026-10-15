@@ -1,0 +1,26 @@
+@model Course
+@{ ViewData["Title"] = Model.Code; }
+<div class="page-head">
+    <h1>@Model.Code: @Model.Title</h1>
+    <div><a class="btn" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <a class="btn" asp-action="Index">Back to courses</a></div>
+</div>
+<dl>
+    <dt>Credits</dt><dd>@Model.Credits</dd>
+    <dt>Department</dt><dd>@Model.Department?.Name</dd>
+    <dt>Instructor</dt><dd>@(Model.Instructor?.FullName ?? "Not assigned")</dd>
+</dl>
+<h2>Enrolled students</h2>
+@if (!Model.Enrollments.Any())
+{
+    <p class="empty">No students are enrolled yet. Enroll students from their detail page.</p>
+}
+else
+{
+    <div class="table-wrap"><table>
+        <thead><tr><th>Name</th><th>Email</th><th>Enrolled on</th></tr></thead>
+        <tbody>
+        @foreach (var e in Model.Enrollments)
+        { <tr><td><a asp-controller="Students" asp-action="Details" asp-route-id="@e.StudentId">@e.Student!.FullName</a></td><td>@e.Student.Email</td><td>@e.EnrolledOn.ToString("yyyy-MM-dd")</td></tr> }
+        </tbody>
+    </table></div>
+}

@@ -1,0 +1,37 @@
+@model IEnumerable<Course>
+@{ ViewData["Title"] = "Courses"; }
+<div class="page-head">
+    <h1>Courses</h1>
+    <a class="btn btn-primary" asp-action="Create">Add course</a>
+</div>
+<form method="get" class="search" role="search">
+    <input type="text" name="search" value="@ViewData["Search"]" placeholder="Search by code or title" aria-label="Search courses" />
+    <button class="btn" type="submit">Search</button>
+</form>
+@if (!Model.Any())
+{
+    <p class="empty">No courses match. Add a course to build the catalog.</p>
+}
+else
+{
+    <div class="table-wrap"><table>
+        <thead><tr><th>Code</th><th>Title</th><th>Credits</th><th>Department</th><th>Instructor</th><th>Students</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td><a asp-action="Details" asp-route-id="@c.Id">@c.Code</a></td>
+                <td>@c.Title</td>
+                <td>@c.Credits</td>
+                <td>@c.Department?.Name</td>
+                <td>@(c.Instructor?.FullName ?? "Not assigned")</td>
+                <td>@c.Enrollments.Count</td>
+                <td class="actions">
+                    <a asp-action="Edit" asp-route-id="@c.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@c.Id">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table></div>
+}

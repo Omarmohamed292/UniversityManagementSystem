@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Campus Registry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <aside class="rail">
+        <a class="brand" asp-controller="Home" asp-action="Index">Campus Registry</a>
+        <nav aria-label="Main">
+            @{ var c = ViewContext.RouteData.Values["controller"]?.ToString(); }
+            <a asp-controller="Students" asp-action="Index" class="@(c == "Students" ? "active" : "")">Students</a>
+            <a asp-controller="Instructors" asp-action="Index" class="@(c == "Instructors" ? "active" : "")">Instructors</a>
+            <a asp-controller="Courses" asp-action="Index" class="@(c == "Courses" ? "active" : "")">Courses</a>
+        </nav>
+    </aside>
+    <main>
+        @if (TempData["Message"] is string ok) { <div class="notice ok" role="status">@ok</div> }
+        @if (TempData["Error"] is string err) { <div class="notice err" role="alert">@err</div> }
+        @RenderBody()
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,15 @@
+@model Instructor
+@{ ViewData["Title"] = "Delete instructor"; }
+<div class="page-head"><h1>Delete @Model.FullName?</h1></div>
+<p class="lead">
+    @if (Model.Courses.Any())
+    { <text>@Model.Courses.Count course(s) will stay in the catalog with no instructor assigned.</text> }
+    else
+    { <text>This instructor has no assigned courses.</text> }
+    This cannot be undone.
+</p>
+<form asp-action="Delete" method="post" class="form-actions">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger" type="submit">Delete instructor</button>
+    <a class="btn" asp-action="Index">Keep instructor</a>
+</form>
